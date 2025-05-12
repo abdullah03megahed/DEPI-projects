@@ -13,7 +13,7 @@ import org.testng.annotations.*;
 import java.time.Duration;
 import java.util.List;
 
-public class Checkout_Process {
+public class Check_Out {
 
     private WebDriver driver;
     private WebDriverWait wait;
