@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class AddRemoveCart {
+public class Add_To_Cart {
 
     private WebDriver driver;
     private WebDriverWait wait;
