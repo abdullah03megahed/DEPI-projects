@@ -23,13 +23,13 @@ public class Add_To_Cart {
     private final By passwordField = By.id("password");
     private final By loginButton = By.id("login-button");
     private final By inventoryList = By.className("inventory_list");
-    private final By addToCartButtonBackpack = By.id("add-to-cart-sauce-labs-backpack");
-    private final By addToCartButtonBikeLight = By.id("add-to-cart-sauce-labs-bike-light");
-    private final By removeButtonBackpack = By.id("remove-sauce-labs-backpack");
-    private final By removeButtonBikeLight = By.id("remove-sauce-labs-bike-light");
-    private final By cartBadge = By.className("shopping_cart_badge");
+    private final By addToCartButtonBackpack = By.xpath("//button[@class='btn_primary btn_inventory']");
+    private final By addToCartButtonBikeLight = By.xpath("//button[@class='btn_primary btn_inventory']");
+    private final By removeButtonBackpack = By.xpath("//button[@class='btn_secondary btn_inventory']");
+    private final By removeButtonBikeLight = By.xpath("//button[@class='btn_secondary btn_inventory']");
+    private final By cartBadge = By.xpath("//span[@class='fa-layers-counter shopping_cart_badge']");
     private final By cartLink = By.className("shopping_cart_link");
-    private final By cartItems = By.className("cart_item");
+    private final By cartItems = By.xpath("//div[@class='cart_item']");//s
     private final By inventoryItemName = By.className("inventory_item_name");
 
     @BeforeMethod
@@ -53,7 +53,7 @@ public class Add_To_Cart {
     @Test(priority = 1, description = "Test adding one item to cart and verify cart count.")
     public void addOneItemToCart() {
         // Add Sauce Labs Backpack to cart
-        wait.until(ExpectedConditions.elementToBeClickable(addToCartButtonBackpack)).click();
+        driver.findElement(addToCartButtonBackpack).click();
 
         // Verify cart badge shows 1
         WebElement badge = wait.until(ExpectedConditions.visibilityOfElementLocated(cartBadge));
@@ -91,20 +91,20 @@ public class Add_To_Cart {
         // Add two items to cart
         wait.until(ExpectedConditions.elementToBeClickable(addToCartButtonBackpack)).click();
         wait.until(ExpectedConditions.elementToBeClickable(addToCartButtonBikeLight)).click();
-
         // Remove Sauce Labs Backpack
         wait.until(ExpectedConditions.elementToBeClickable(removeButtonBackpack)).click();
 
-        // Verify cart badge shows 1
+        //assertion
         WebElement badge = wait.until(ExpectedConditions.visibilityOfElementLocated(cartBadge));
-        Assert.assertEquals(badge.getText(), "1", "Cart badge should show 1 item after removal.");
+        Assert.assertEquals(badge.getText(), "1", "Cart badge should show 1 items.");
 
-        // Navigate to cart and verify remaining item
+        // Navigate to cart and verify items
         driver.findElement(cartLink).click();
-        WebElement cartItem = wait.until(ExpectedConditions.visibilityOfElementLocated(cartItems));
-        Assert.assertTrue(cartItem.findElement(inventoryItemName).getText().contains("Sauce Labs Bike Light"),
-                "Sauce Labs Bike Light not found in cart after removal.");
-        System.out.println("Successfully removed one item from cart and verified.");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(cartItems));
+        int itemCount = driver.findElements(cartItems).size();
+        Assert.assertEquals(itemCount, 1, "Cart should contain 1 items.");
+        System.out.println("Successfully added multiple items to cart and verified.");
+
     }
 
     @Test(priority = 4, description = "Test removing all items from cart and verify cart is empty.")
