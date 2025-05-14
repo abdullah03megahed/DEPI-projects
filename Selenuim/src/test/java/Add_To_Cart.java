@@ -39,12 +39,12 @@ public class Add_To_Cart {
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.get(BASE_URL);
-        performLogin("standard_user", "secret_sauce");
+        performLogin("standard_user");
     }
 
-    private void performLogin(String username, String password) {
+    private void performLogin(String username) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField)).sendKeys(username);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys("secret_sauce");
         wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
         Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(inventoryList)).isDisplayed(),
                 "Login failed: Inventory list not displayed.");
@@ -52,7 +52,7 @@ public class Add_To_Cart {
 
     @Test(priority = 1, description = "Test adding one item to cart and verify cart count.")
     public void addOneItemToCart() {
-        // Add Sauce Labs Backpack to cart
+        // Add Sauce Labs Backpack to the cart
         driver.findElement(addToCartButtonBackpack).click();
 
         // Verify cart badge shows 1
@@ -70,7 +70,7 @@ public class Add_To_Cart {
 
     @Test(priority = 2, description = "Test adding multiple items to cart and verify cart count.")
     public void addMultipleItemsToCart() {
-        // Add Sauce Labs Backpack and Bike Light to cart
+        // Add Sauce Labs Backpack and Bike Light to the cart
         wait.until(ExpectedConditions.elementToBeClickable(addToCartButtonBackpack)).click();
         wait.until(ExpectedConditions.elementToBeClickable(addToCartButtonBikeLight)).click();
 
@@ -78,7 +78,7 @@ public class Add_To_Cart {
         WebElement badge = wait.until(ExpectedConditions.visibilityOfElementLocated(cartBadge));
         Assert.assertEquals(badge.getText(), "2", "Cart badge should show 2 items.");
 
-        // Navigate to cart and verify items
+        // Navigate to the cart and verify items
         driver.findElement(cartLink).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(cartItems));
         int itemCount = driver.findElements(cartItems).size();
@@ -88,7 +88,7 @@ public class Add_To_Cart {
 
     @Test(priority = 3, description = "Test removing one item from cart and verify cart count.")
     public void removeOneItemFromCart() {
-        // Add two items to cart
+        // Add two items to the cart
         wait.until(ExpectedConditions.elementToBeClickable(addToCartButtonBackpack)).click();
         wait.until(ExpectedConditions.elementToBeClickable(addToCartButtonBikeLight)).click();
         // Remove Sauce Labs Backpack
@@ -98,7 +98,7 @@ public class Add_To_Cart {
         WebElement badge = wait.until(ExpectedConditions.visibilityOfElementLocated(cartBadge));
         Assert.assertEquals(badge.getText(), "1", "Cart badge should show 1 items.");
 
-        // Navigate to cart and verify items
+        // Navigate to the cart and verify items
         driver.findElement(cartLink).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(cartItems));
         int itemCount = driver.findElements(cartItems).size();
@@ -109,7 +109,7 @@ public class Add_To_Cart {
 
     @Test(priority = 4, description = "Test removing all items from cart and verify cart is empty.")
     public void removeAllItemsFromCart() {
-        // Add two items to cart
+        // Add two items to the cart
         wait.until(ExpectedConditions.elementToBeClickable(addToCartButtonBackpack)).click();
         wait.until(ExpectedConditions.elementToBeClickable(addToCartButtonBikeLight)).click();
 
@@ -117,13 +117,13 @@ public class Add_To_Cart {
         wait.until(ExpectedConditions.elementToBeClickable(removeButtonBackpack)).click();
         wait.until(ExpectedConditions.elementToBeClickable(removeButtonBikeLight)).click();
 
-        // Verify cart badge is not present
-        boolean badgePresent = driver.findElements(cartBadge).size() > 0;
+        // Verify the cart badge is not present
+        boolean badgePresent = !driver.findElements(cartBadge).isEmpty();
         Assert.assertFalse(badgePresent, "Cart badge should not be visible after removing all items.");
 
-        // Navigate to cart and verify it's empty
+        // Navigate to the cart and verify it's empty
         driver.findElement(cartLink).click();
-        boolean cartEmpty = driver.findElements(cartItems).size() == 0;
+        boolean cartEmpty = driver.findElements(cartItems).isEmpty();
         Assert.assertTrue(cartEmpty, "Cart should be empty after removing all items.");
         System.out.println("Successfully removed all items from cart and verified.");
     }
@@ -132,12 +132,12 @@ public class Add_To_Cart {
     public void addItemWithProblemUser() {
         // Log out and log in as problem_user
         driver.get(BASE_URL);
-        performLogin("problem_user", "secret_sauce");
+        performLogin("problem_user");
 
-        // Add Sauce Labs Backpack to cart
+        // Add Sauce Labs Backpack to the cart
         wait.until(ExpectedConditions.elementToBeClickable(addToCartButtonBackpack)).click();
 
-        // Verify cart badge shows 1 (problem user may have UI issues, but cart should work)
+        // Verify cart badge shows 1 (problem user may have UI issues, but the cart should work)
         WebElement badge = wait.until(ExpectedConditions.visibilityOfElementLocated(cartBadge));
         Assert.assertEquals(badge.getText(), "1", "Cart badge should show 1 item for problem user.");
         System.out.println("Successfully added item to cart with problem user.");

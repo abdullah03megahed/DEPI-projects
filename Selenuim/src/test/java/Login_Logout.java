@@ -16,7 +16,6 @@ public class Login_Logout {
 
     private WebDriver driver;
     private WebDriverWait wait;
-    private final String BASE_URL = "https://www.saucedemo.com/v1/index.html";
 
     // Locators
     private final By usernameField = By.id("user-name");
@@ -34,7 +33,8 @@ public class Login_Logout {
         WebDriverManager.edgedriver().setup();
         driver = new EdgeDriver();
         driver.manage().window().maximize();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Explicit wait for 10 seconds
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        String BASE_URL = "https://www.saucedemo.com/v1/index.html";
         driver.get(BASE_URL);
     }
 
@@ -48,7 +48,6 @@ public class Login_Logout {
 
     private void performLogout() {
         driver.findElement(menuButton).click();
-        // Wait for the logout link in the sidebar to be clickable and then click it
         WebElement logoutElement = wait.until(ExpectedConditions.elementToBeClickable(logoutLink));
         logoutElement.click();
     }
@@ -84,7 +83,7 @@ public class Login_Logout {
     @Test(priority = 3, description = "Test login with problem user and logout.")
     public void loginAndLogout_ProblemUser() {
         performLogin("problem_user", "secret_sauce");
-        // Problem user should still be able to log in. Problems might be on inventory page.
+        // Problem user should still be able to log in. Problems might be on the inventory page.
         Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(inventoryList)).isDisplayed(),
                 "Inventory list not displayed after problem user login.");
         System.out.println("Problem user logged in successfully.");
@@ -97,8 +96,7 @@ public class Login_Logout {
 
     @Test(priority = 4, description = "Test login with performance glitch user and logout.")
     public void loginAndLogout_PerformanceGlitchUser() {
-        // Increase wait time for this specific user if necessary, though explicit waits should handle it.
-        WebDriverWait performanceWait = new WebDriverWait(driver, Duration.ofSeconds(20)); // Longer wait
+        WebDriverWait performanceWait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         performanceWait.until(ExpectedConditions.visibilityOfElementLocated(usernameField)).sendKeys("performance_glitch_user");
         performanceWait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys("secret_sauce");
@@ -108,7 +106,6 @@ public class Login_Logout {
                 "Inventory list not displayed after performance glitch user login.");
         System.out.println("Performance glitch user logged in successfully.");
 
-        // Use standard wait for logout
         performLogout();
         Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(loginLogo)).isDisplayed(),
                 "Login logo not displayed after logout for performance glitch user.");
@@ -123,7 +120,7 @@ public class Login_Logout {
                 {"standard_user", "wrong_password", "Username and password do not match"},
                 {"", "secret_sauce", "Username is required"},
                 {"standard_user", "", "Password is required"},
-                {"", "", "Username is required"} // Both empty, username error shows first
+                {"", "", "Username is required"}
         };
     }
 
@@ -142,11 +139,11 @@ public class Login_Logout {
         // Clear cookies to simulate no login
         driver.manage().deleteAllCookies();
 
-        // Navigate to inventory page
+        // Navigate to the inventory page
         driver.get("https://www.saucedemo.com/v1/inventory.html");
 
-        // Wait to see if login form is visible (means redirected)
-        boolean redirectedToLogin = false;
+        // Wait to see if the login form is visible (means redirected)
+        boolean redirectedToLogin;
         try {
             wait.withTimeout(Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(By.id("login-button")));
             redirectedToLogin = true;

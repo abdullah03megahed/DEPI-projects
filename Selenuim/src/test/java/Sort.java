@@ -1,4 +1,4 @@
-// Yossif Mohamed Abbas
+// Youssif Mohamed Abbas
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 public class Sort {
     private WebDriver driver;
     private WebDriverWait wait;
-    private final String BASE_URL = "https://www.saucedemo.com/v1/index.html";
 
     // Locators
     private final By usernameField = By.id("user-name");
@@ -28,7 +27,8 @@ public class Sort {
         WebDriverManager.edgedriver().setup();
         driver = new EdgeDriver();
         driver.manage().window().maximize();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Explicit wait for 10 seconds
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        String BASE_URL = "https://www.saucedemo.com/v1/index.html";
         driver.get(BASE_URL);
     }
 
@@ -37,9 +37,9 @@ public class Sort {
         if (driver != null) driver.quit();
     }
 
-    private void login(String username, String password) {
+    private void login(String username) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField)).sendKeys(username);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys("secret_sauce");
         wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
 
@@ -65,7 +65,7 @@ public class Sort {
 
     @Test(priority = 1, description = "Sort by Price: Low to High for Standard User")
     public void sortByPriceLowToHighStandardUser() {
-        login("standard_user", "secret_sauce");
+        login("standard_user");
         selectSortOption("lohi");
         List<Double> prices = getPrices();
         List<Double> sorted = new ArrayList<>(prices);
@@ -77,7 +77,7 @@ public class Sort {
 
     @Test(priority = 3, description = "Sort by Name: A to Z for Problem User")
     public void sortByNameAToZProblemUser() {
-        login("problem_user", "secret_sauce");
+        login("problem_user");
         selectSortOption("az");
         List<String> names = getNames();
         List<String> sorted = new ArrayList<>(names);
@@ -88,7 +88,7 @@ public class Sort {
 
     @Test(priority = 4, description = "Sort by Name: Z to A for Performance Glitch User")
     public void sortByNameZToAPerformanceGlitchUser() {
-        login("performance_glitch_user", "secret_sauce");
+        login("performance_glitch_user");
         selectSortOption("za");
         List<String> names = getNames();
         List<String> sorted = new ArrayList<>(names);
