@@ -73,7 +73,7 @@ public class Products {
         // Then iterate through each product
         for (String productName : productNamesList) {
             try {
-                // Find and click the product with matching name
+                // Find and click the product with a matching name
                 WebElement product = driver.findElement(By.xpath("//div[contains(@class, 'inventory_item_name') and text()='" + productName + "']"));
                 product.click();
 
@@ -107,7 +107,7 @@ public class Products {
             } catch (Exception e) {
                 System.err.println("Error processing product: " + productName);
                 e.printStackTrace();
-                // Try to go back to the products page if there's an error
+                // Try to go back to the product page if there's an error
                 driver.navigate().back();
                 wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(productNames));
             }
