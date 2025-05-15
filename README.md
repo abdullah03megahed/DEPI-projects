@@ -1,104 +1,114 @@
-# DEPI-project
-Software Testing Project – Swag Labs ([https://www.saucedemo.com/v1/](https://www.saucedemo.com/v1/))
+# Swag Labs Automated Testing Project
 
-📘 Test Introduction – DEPI Project
-This project is part of a Software Testing course assignment and focuses on automated end-to-end UI testing for the Swag Labs e-commerce website. The goal of this test suite is to ensure that the platform's core functionalities perform reliably and meet expected behavior under various conditions.
-The tests are written in Java and leverage Selenium WebDriver for browser automation, with TestNG (or JUnit) as the test framework. These tests cover common user actions such as logging in, navigating products, sorting, manipulating the cart, and completing the checkout process.
-This automation suite simulates real user interactions, verifies functional correctness, and helps detect regressions in essential parts of the system.
+## 📜 Test Introduction – DEPI Project
 
-👥 Team Members
-This project was developed by the following team members as part of the Software Testing DEPI course:
-1-Abdullah Mohamed Megahed Abdelnabi
-2-Kareem Mohamed Shawki Mohamed
-3-Abdelrahman Mohamed Hussein Ali
-4-Shady Emad Kolta Henin
-5-Yossif Mohamed Abbas Helmi
+This repository contains the automated end-to-end UI testing suite for the Swag Labs e-commerce platform ([https://www.saucedemo.com/v1/](https://www.saucedemo.com/v1/)). This project was undertaken as an assignment for the Software Testing (DEPI) course. The primary objective is to validate the core functionalities of the Swag Labs website, ensuring reliability and adherence to expected behaviors under various scenarios.
 
-📌 Project Scope
-The objective of this project is to design and implement automated functional tests for the core features of the Swag Labs e-commerce website using Java, Selenium WebDriver, and TestNG. The scope includes:
-✅ Validating User Authentication: Testing both valid and invalid login credentials and ensuring correct logout functionality.
-✅ Testing Product Display: Ensuring product titles, images, prices, and descriptions are correctly rendered.
-✅ Sorting Verification: Confirming that sorting by name or price (ascending/descending) behaves as expected.
-✅ Cart Functionality: Checking if products can be added to and removed from the shopping cart with quantity updates reflected accurately.
-✅ Checkout Workflow: Validating the complete purchase flow from adding items to confirming the order.
-✅ Negative Scenarios: Handling incorrect or edge-case inputs, such as empty fields or unauthorized access.
-✅ Bug Detection: Identifying unexpected behavior such as accessing inventory without login or missing UI elements.
+The test suite is developed in Java, utilizing Selenium WebDriver for browser automation and TestNG as the testing framework. The automated tests cover essential user interactions, including login processes, product navigation and sorting, shopping cart manipulation, and the complete checkout workflow. This automation effort aims to simulate real user experiences, verify functional correctness, and facilitate the early detection of regressions within the system's critical features.
 
-❌ Out of Scope:
--Load or performance testing.
--Cross-browser compatibility testing.
--Mobile responsiveness testing.
+## 👥 Team Members
 
-🗂️ Automation Project Structure
-DEPI-project/
-│
-├── src/
-│   └── test/
-│       └── java/
-│           ├── pages/
-│           │   ├── LoginPage.java           # Page Object for Login screen
-│           │   ├── InventoryPage.java       # Page Object for product listings
-│           │   ├── CartPage.java            # Page Object for Cart operations
-│           │   ├── CheckoutPage.java        # Page Object for Checkout process
-│           │   └── CompletePage.java        # Page Object for order completion
-├── testng.xml                                # TestNG configuration file
-├── pom.xml                                   # Maven project descriptor
-├── README.md                                 # Project documentation
-🔁 Design Patterns Used
--Singleton Pattern: Test and methods in pages in one class as it's effictive method for small projects.
--TestNG Framework: For organizing and running test cases with assertions and reporting.
+This project was collaboratively developed by the following students for the Software Testing DEPI course:
 
-This structure enhances:
--Maintainability.
--Scalability for adding new test suites.
--Performance by managing WebDriver properly using Singleton.
+* Abdullah Mohamed Megahed Abdelnabi
+* Kareem Mohamed Shawki Mohamed
+* Abdelrahman Mohamed Hussein Ali
+* Shady Emad Kolta Henin
+* Yossif Mohamed Abbas Helmi
 
- Features Tested:-
-1- Login & Logout** – Verifies correct and incorrect login scenarios and ensures successful logout functionality.
-2- Product Page** – Confirms the visibility and correctness of product listings and UI elements.
-3- Sorting Functionality** – Tests the product sort feature (e.g., by price or name) for correct behavior.
-4- Add to / Remove from Cart** – Checks the ability to add and remove items from the shopping cart, including quantity updates.
-5- Checkout Process** – Validates the full checkout workflow, from cart review to completing a purchase.
+## 📌 Project Scope
 
- Technologies Used:-
-1- Java JDK(21.0.6).
-2- Selenium WebDriver (or your test automation tool if different).
-3- TestNG.
+The core objective of this project is the design and implementation of automated functional tests for the key features of the Swag Labs e-commerce website. This is achieved using Java, Selenium WebDriver, and the TestNG framework.
 
-✅ Prerequisites
-Before running the project, make sure you have the following installed and configured:
-💻 System Requirements
--Operating System: Windows 10/11.
--Browser: Microsoft Edge.
-🔧 Tools & Dependencies.
--Java JDK – Version 21 or above.
--Maven – For managing project dependencies and running tests.
--IDE – IntelliJ IDEA (Java configured).
-📦 Libraries (Handled via Maven pom.xml)
--Selenium WebDriver.
--TestNG.
--WebDriverManager – for managing browser drivers automatically.
-🔐 Environment Setup
--Ensure environment variables for JAVA_HOME and MAVEN_HOME are properly set.
--Internet access is required for downloading dependencies on first build.
+### ✅ In Scope:
 
-📝 Jira Board
-You can track all tasks, bugs, and progress related to this project via the official Jira board:
-🔗 🔗 Click here to access the DEPI Jira Project
-Note: You may need to log in with the authorized email address to access the board.
+* **User Authentication:**
+    * Validation of login functionality with both valid and invalid credentials.
+    * Verification of successful logout.
+* **Product Display:**
+    * Ensuring accurate rendering of product titles, images, prices, and descriptions.
+* **Sorting Functionality:**
+    * Confirmation of correct product sorting by name (ascending/descending) and price (ascending/descending).
+* **Cart Functionality:**
+    * Verification of adding products to the shopping cart.
+    * Verification of removing products from the shopping cart.
+    * Ensuring accurate reflection of quantity updates in the cart.
+* **Checkout Workflow:**
+    * Validation of the entire purchase process, from adding items to order confirmation.
+* **Negative Scenarios:**
+    * Handling of incorrect or edge-case inputs, such as empty form fields.
+    * Testing for unauthorized access attempts.
+* **Bug Detection:**
+    * Identification of unexpected behaviors, such as accessing inventory pages without prior login.
+    * Detection of missing or malfunctioning UI elements.
 
-📄 Test Summary Report
-This report documents the execution results of automated test cases, including:
--Pass/Fail status.
--Priority and severity.
--Test environment and configuration.
--Techniques used.
-🔗 View Test Summary Report
+### ❌ Out of Scope:
 
-🐞 Bug Report
-The detailed bug tracking and issue report for this project can be accessed here:
-🔗 Bug Report Document
+* Load or performance testing.
+* Cross-browser compatibility testing (beyond the primary test browser).
+* Mobile responsiveness testing.
 
-📽️ Project Presentation
-For a comprehensive overview and walkthrough of the project, please refer to the presentation slides available here:
-🔗 View Project Presentation
+## 🗂️ Automation Project Structure
+
+The project follows a standard Maven project structure, incorporating the Page Object Model (POM) design pattern for enhanced maintainability and readability.
+
+![image](https://github.com/user-attachments/assets/965620ec-2ef5-4db8-b2aa-3ab2ec88df0c)
+
+
+This structure promotes:
+
+* **Maintainability:** Separation of test logic from page-specific code.
+* **Scalability:** Ease of adding new test cases and page objects.
+* **Reusability:** Page objects can be reused across multiple test scripts.
+
+## 🔁 Design Patterns and Frameworks Used
+
+* **Page Object Model (POM):** Used to create a readable and maintainable test automation framework by representing each web page as a class and web elements as variables, with user interactions implemented as methods.
+* **Singleton Pattern:** Implemented for WebDriver instance management to ensure a single, shared browser instance across tests, which can be effective for managing resources in smaller to medium-sized projects.
+* **TestNG Framework:** Utilized for structuring and executing test cases, managing test suites, generating reports, and providing assertion capabilities.
+
+## ✨ Features Tested
+
+The automated test suite covers the following core functionalities:
+
+1.  **Login & Logout:** Verifies authentication with valid and invalid credentials and ensures proper logout.
+2.  **Product Page Navigation & Display:** Confirms the correct display of product listings, including details and UI elements.
+3.  **Sorting Functionality:** Validates the product sorting feature (by price and name, ascending/descending).
+4.  **Add to / Remove from Cart:** Tests the ability to add items to and remove items from the shopping cart, ensuring quantity updates are accurate.
+5.  **Checkout Process:** Validates the end-to-end checkout workflow, from cart review to successful order completion.
+
+## 🛠️ Technologies Used
+
+* **Programming Language:** Java (JDK 21.0.6 or later)
+* **Test Automation Tool:** Selenium WebDriver
+* **Testing Framework:** TestNG
+* **Build Automation Tool & Dependency Management:** Apache Maven
+* **Browser Driver Management:** WebDriverManager
+
+## ✅ Prerequisites
+
+Ensure the following software is installed and configured on your system before running the tests:
+
+### 💻 System Requirements:
+
+* **Operating System:** Windows 10/11 (primarily tested on this OS)
+* **Browser:** Microsoft Edge (ensure the corresponding Edge WebDriver is compatible or managed by WebDriverManager)
+
+### 🔧 Tools & Dependencies:
+
+* **Java Development Kit (JDK):** Version 21 or higher.
+* **Apache Maven:** For project build and dependency management.
+* **Integrated Development Environment (IDE):** IntelliJ IDEA (recommended, with Java configured) or any other Java-compatible IDE.
+
+### 📦 Libraries (Managed via `pom.xml`):
+
+* Selenium WebDriver
+* TestNG
+* WebDriverManager (automates the download and setup of browser drivers)
+
+### 🔐 Environment Setup:
+
+* **Environment Variables:**
+    * `JAVA_HOME`: Should point to your JDK installation directory.
+    * `MAVEN_HOME` (Optional, if `mvn` is not in PATH): Should point to your Maven installation directory. Ensure Maven's `bin` directory is added to your system's PATH.
+* **Internet Connection:** Required for the initial build to download Maven dependencies.
