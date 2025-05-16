@@ -1,4 +1,4 @@
-// Youssif Mohamed Abbas
+// Yossif Mohamed Abbas
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
+
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class Sort {
         WebDriverManager.edgedriver().setup();
         driver = new EdgeDriver();
         driver.manage().window().maximize();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         String BASE_URL = "https://www.saucedemo.com/v1/index.html";
         driver.get(BASE_URL);
     }
@@ -37,9 +38,9 @@ public class Sort {
         if (driver != null) driver.quit();
     }
 
-    private void login(String username) {
+    private void login(String username, String password) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField)).sendKeys(username);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys("secret_sauce");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys(password);
         wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
 
@@ -63,37 +64,51 @@ public class Sort {
                 .collect(Collectors.toList());
     }
 
-    @Test(priority = 1, description = "Sort by Price: Low to High for Standard User")
-    public void sortByPriceLowToHighStandardUser() {
-        login("standard_user");
-        selectSortOption("lohi");
-        List<Double> prices = getPrices();
-        List<Double> sorted = new ArrayList<>(prices);
-        Collections.sort(sorted);
-        Assert.assertEquals(prices, sorted, "Prices are not sorted Low to High correctly.");
-        System.out.println("✅ Prices sorted Low to High for Standard User.");
+    @DataProvider(name = "usersAndSortOptions")
+    public Object[][] usersAndSortOptions() {
+        return new Object[][]{
+                {"standard_user", "secret_sauce", "az"},
+                {"standard_user", "secret_sauce", "za"},
+                {"standard_user", "secret_sauce", "lohi"},
+                {"standard_user", "secret_sauce", "hilo"},
+
+                {"problem_user", "secret_sauce", "az"},
+                {"problem_user", "secret_sauce", "za"},
+                {"problem_user", "secret_sauce", "lohi"},
+                {"problem_user", "secret_sauce", "hilo"},
+
+                {"performance_glitch_user", "secret_sauce", "az"},
+                {"performance_glitch_user", "secret_sauce", "za"},
+                {"performance_glitch_user", "secret_sauce", "lohi"},
+                {"performance_glitch_user", "secret_sauce", "hilo"}
+        };
     }
 
+    @Test(dataProvider = "usersAndSortOptions")
+    public void testSorting(String username, String password, String sortType) {
+        login(username, password);
+        selectSortOption(sortType);
 
-    @Test(priority = 3, description = "Sort by Name: A to Z for Problem User")
-    public void sortByNameAToZProblemUser() {
-        login("problem_user");
-        selectSortOption("az");
-        List<String> names = getNames();
-        List<String> sorted = new ArrayList<>(names);
-        Collections.sort(sorted);
-        Assert.assertEquals(names, sorted, "Names are not sorted A to Z correctly.");
-        System.out.println("✅ Names sorted A to Z for Problem User.");
-    }
-
-    @Test(priority = 4, description = "Sort by Name: Z to A for Performance Glitch User")
-    public void sortByNameZToAPerformanceGlitchUser() {
-        login("performance_glitch_user");
-        selectSortOption("za");
-        List<String> names = getNames();
-        List<String> sorted = new ArrayList<>(names);
-        sorted.sort(Collections.reverseOrder());
-        Assert.assertEquals(names, sorted, "Names are not sorted Z to A correctly.");
-        System.out.println("✅ Names sorted Z to A for Performance Glitch User.");
+        if (sortType.equals("lohi") || sortType.equals("hilo")) {
+            List<Double> prices = getPrices();
+            List<Double> expected = new ArrayList<>(prices);
+            if (sortType.equals("lohi")) {
+                Collections.sort(expected);
+            } else {
+                expected.sort(Collections.reverseOrder());
+            }
+            Assert.assertEquals(prices, expected, "Prices not sorted correctly for: " + username + " - " + sortType);
+            System.out.println("✅ Prices sorted correctly for " + username + " - " + sortType);
+        } else {
+            List<String> names = getNames();
+            List<String> expected = new ArrayList<>(names);
+            if (sortType.equals("az")) {
+                Collections.sort(expected);
+            } else {
+                expected.sort(Collections.reverseOrder());
+            }
+            Assert.assertEquals(names, expected, "Names not sorted correctly for: " + username + " - " + sortType);
+            System.out.println("✅ Names sorted correctly for " + username + " - " + sortType);
+        }
     }
 }
